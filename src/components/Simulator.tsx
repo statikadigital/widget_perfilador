@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { getSimulatorResource } from '../api';
 import { moneyToNumber, numberToMoney, getParam, safeUUID } from '../utils';
-import { SimulationData, SimulationResult, Portfolio } from '../types';
+import { SimulationData, SimulationResult, Portfolio, SimulatorResourcePayload } from '../types';
 import SimulatorForm from './SimulatorForm';
 import EmailForm from './EmailForm';
 import SimulationResults from './SimulationResults';
@@ -63,10 +63,10 @@ const Simulator: React.FC<SimulatorProps> = ({ initialData = null }) => {
   const performSimulationCall = async (data: SimulationData): Promise<void> => {
     const invIni = moneyToNumber(data.inversionInicial || '0');
     const invMen = moneyToNumber(data.inversionMensual || '0');
-    const periodo = data.period === 'years' ? 'anios' : 'meses';
+    const periodo: 'anios' | 'meses' = data.period === 'years' ? 'anios' : 'meses';
     const dur = Number(data.duracionPlazo || 0);
     const currentProfile = profile;
-    const liquidity = data.selected === 'option1' ? 'Si' : 'No';
+    const liquidity: 'Si' | 'No' = data.selected === 'option1' ? 'Si' : 'No';
     
     const uuid = safeUUID();
     let storedUuid = sessionStorage.getItem('uuid_principal_user');
@@ -75,7 +75,7 @@ const Simulator: React.FC<SimulatorProps> = ({ initialData = null }) => {
       storedUuid = uuid;
     }
 
-    const payload = {
+    const payload: SimulatorResourcePayload = {
       idSession: storedUuid,
       initialInvestment: invIni,
       monthlyContribution: invMen,

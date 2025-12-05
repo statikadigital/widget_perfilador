@@ -25,7 +25,9 @@ export function formatMoneyInput(value: string | number | null | undefined): str
 }
 
 export function safeUUID(): string {
-  if (window.crypto?.randomUUID) return crypto.randomUUID();
+  if (typeof window.crypto?.randomUUID === 'function') {
+    return window.crypto.randomUUID();
+  }
   return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, (c: string): string => {
     const r = Math.random() * 16 | 0;
     const v = c === 'x' ? r : (r & 0x3 | 0x8);
