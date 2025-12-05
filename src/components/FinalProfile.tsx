@@ -1,11 +1,19 @@
 import React from 'react';
-import { getProfileMessages, moneyToNumber } from '../utils';
+import { getProfileMessages } from '../utils';
+import { SimulationData } from '../types';
 import './FinalProfile.css';
 
-const FinalProfile = ({ profile, simulationData, onRetry, onContinue }) => {
-  const messages = getProfileMessages(profile);
+interface FinalProfileProps {
+  profile: string | null;
+  simulationData: SimulationData | null;
+  onRetry: () => void;
+  onContinue: () => void;
+}
 
-  const handleContinue = () => {
+const FinalProfile: React.FC<FinalProfileProps> = ({ profile, simulationData, onRetry, onContinue }) => {
+  const messages = getProfileMessages(profile || 'Moderado');
+
+  const handleContinue = (): void => {
     // Llamar al callback onContinue que mostrará el Simulator
     if (onContinue) {
       onContinue();
@@ -81,5 +89,4 @@ const FinalProfile = ({ profile, simulationData, onRetry, onContinue }) => {
 };
 
 export default FinalProfile;
-
 

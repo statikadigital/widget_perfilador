@@ -1,7 +1,11 @@
 import React from 'react';
 import './Loader.css';
 
-const Loader = ({ show }) => {
+interface LoaderProps {
+  show: boolean;
+}
+
+const Loader: React.FC<LoaderProps> = ({ show }) => {
   if (!show) return null;
   
   return (
@@ -12,5 +16,4 @@ const Loader = ({ show }) => {
 };
 
 export default Loader;
-
 

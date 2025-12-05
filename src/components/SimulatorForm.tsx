@@ -84,7 +84,7 @@ const SimulatorForm: React.FC<SimulatorFormProps> = ({
 
   const handleInversionInicialFocus = (e: FocusEvent<HTMLInputElement>): void => {
     const num = moneyToNumber(e.target.value);
-    e.target.value = num || '';
+    e.target.value = num ? String(num) : '';
   };
 
   const handleInversionInicialInput = (e: ChangeEvent<HTMLInputElement>): void => {
@@ -102,7 +102,7 @@ const SimulatorForm: React.FC<SimulatorFormProps> = ({
 
   const handleInversionMensualFocus = (e: FocusEvent<HTMLInputElement>): void => {
     const num = moneyToNumber(e.target.value);
-    e.target.value = num || '';
+    e.target.value = num ? String(num) : '';
   };
 
   const handleInversionMensualInput = (e: ChangeEvent<HTMLInputElement>): void => {

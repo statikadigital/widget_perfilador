@@ -62,3 +62,28 @@ export interface OAuth2EmailData {
   hrefEcommerce: string;
 }
 
+export interface Question {
+  id: string;
+  question: string;
+  answerOptions?: Array<{
+    id: string;
+    answerText: string;
+    order: string | number;
+  }>;
+  options?: Array<{
+    id: string;
+    text: string;
+    value: string;
+  }>;
+}
+
+export interface CatalogResourceResponse {
+  result?: Question[];
+}
+
+export interface FormErrors {
+  amount?: string;
+  noperiod?: string;
+  [key: string]: string | undefined;
+}
+

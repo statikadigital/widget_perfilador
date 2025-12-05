@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { safeUUID, moneyToNumber, getParam } from '../utils';
 import { fetchCatalogResource, registerAnswers } from '../api';
+import { Question, SimulationData } from '../types';
 import StepsIndicator from './StepsIndicator';
 import SimulationForm from './SimulationForm';
 import QuestionForm from './QuestionForm';
@@ -10,15 +11,15 @@ import Loader from './Loader';
 import ScreenBlocker from './ScreenBlocker';
 import '../styles.css';
 
-const Perfilador = () => {
-  const [currentStep, setCurrentStep] = useState(1); // 1: simulación, 2-6: preguntas, 7: final, 8: simulador
-  const [questions, setQuestions] = useState([]);
-  const [selectedAnswers, setSelectedAnswers] = useState({});
-  const [simulationData, setSimulationData] = useState(null);
-  const [loading, setLoading] = useState(false);
-  const [showBlocker, setShowBlocker] = useState(false);
-  const [finalProfile, setFinalProfile] = useState(null);
-  const [userId, setUserId] = useState(null);
+const Perfilador: React.FC = () => {
+  const [currentStep, setCurrentStep] = useState<number>(1); // 1: simulación, 2-6: preguntas, 7: final, 8: simulador
+  const [questions, setQuestions] = useState<Question[]>([]);
+  const [selectedAnswers, setSelectedAnswers] = useState<Record<string, string | number>>({});
+  const [simulationData, setSimulationData] = useState<SimulationData | null>(null);
+  const [loading, setLoading] = useState<boolean>(false);
+  const [showBlocker, setShowBlocker] = useState<boolean>(false);
+  const [finalProfile, setFinalProfile] = useState<string | null>(null);
+  const [userId, setUserId] = useState<string | null>(null);
 
   // Inicializar UUID de usuario
   useEffect(() => {
@@ -35,9 +36,10 @@ const Perfilador = () => {
     if (currentStep === 2 && questions.length === 0) {
       loadQuestions();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentStep]);
 
-  const loadQuestions = async () => {
+  const loadQuestions = async (): Promise<void> => {
     setLoading(true);
     try {
       const data = await fetchCatalogResource();
@@ -52,13 +54,21 @@ const Perfilador = () => {
     }
   };
 
-  const handleSimulationContinue = (data) => {
+  const handleSimulationContinue = (data: {
+    inversionInicial: string;
+    inversionMensual: string;
+    duracionPlazo: string;
+    period: string;
+  }): void => {
     const amount = moneyToNumber(data.inversionInicial);
     const extra = moneyToNumber(data.inversionMensual);
     const noperiod = parseInt(data.duracionPlazo) || 0;
 
     setSimulationData({
       ...data,
+      duracionPlazo: noperiod,
+      period: data.period as 'anios' | 'years' | 'meses',
+      selected: 'option2',
       amount,
       extra,
       noperiod,
@@ -68,14 +78,14 @@ const Perfilador = () => {
     setCurrentStep(2);
   };
 
-  const handleAnswerChange = (questionId, answerValue) => {
+  const handleAnswerChange = (questionId: string, answerValue: string | number): void => {
     setSelectedAnswers(prev => ({
       ...prev,
       [questionId]: answerValue
     }));
   };
 
-  const handleQuestionContinue = async (answerValue = null) => {
+  const handleQuestionContinue = async (answerValue: string | number | null = null): Promise<void> => {
     const currentQuestionIndex = currentStep - 2; // currentStep 2 = index 0
     const currentQuestion = questions[currentQuestionIndex];
     if (!currentQuestion) return;
@@ -91,7 +101,9 @@ const Perfilador = () => {
     await processAnswer(currentQuestion.id, answer, isLastQuestion);
   };
 
-  const processAnswer = async (questionId, answer, isLastQuestion) => {
+  const processAnswer = async (questionId: string, answer: string | number, isLastQuestion: boolean): Promise<void> => {
+    if (!userId) return;
+    
     try {
       setLoading(true);
       const result = await registerAnswers(userId, questionId, answer);
@@ -115,7 +127,7 @@ const Perfilador = () => {
     }
   };
 
-  const handleQuestionBack = () => {
+  const handleQuestionBack = (): void => {
     if (currentStep === 2) {
       // Volver al formulario de simulación
       setCurrentStep(1);
@@ -132,13 +144,13 @@ const Perfilador = () => {
     }
   };
 
-  const handleRetry = () => {
+  const handleRetry = (): void => {
     setCurrentStep(2);
     setSelectedAnswers({});
     setFinalProfile(null);
   };
 
-  const renderContent = () => {
+  const renderContent = (): React.ReactElement | null => {
     if (currentStep === 1) {
       return (
         <SimulationForm
@@ -186,8 +198,8 @@ const Perfilador = () => {
         <Simulator
           initialData={{
             ...simulationData,
-            profile: finalProfile
-          }}
+            profile: finalProfile || undefined
+          } as SimulationData}
         />
       );
     }

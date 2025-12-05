@@ -1,15 +1,26 @@
-import React, { useState } from 'react';
+import React, { useState, FormEvent, ChangeEvent, FocusEvent } from 'react';
 import { formatMoneyInput, moneyToNumber, intVal } from '../utils';
+import { FormErrors } from '../types';
 import './SimulationForm.css';
 
-const SimulationForm = ({ onContinue, onBack }) => {
-  const [inversionInicial, setInversionInicial] = useState('');
-  const [inversionMensual, setInversionMensual] = useState('');
-  const [duracionPlazo, setDuracionPlazo] = useState('');
-  const [period, setPeriod] = useState('years');
-  const [errors, setErrors] = useState({});
+interface SimulationFormProps {
+  onContinue: (data: {
+    inversionInicial: string;
+    inversionMensual: string;
+    duracionPlazo: string;
+    period: string;
+  }) => void;
+  onBack?: (() => void) | null;
+}
 
-  const handleInversionInicialChange = (e) => {
+const SimulationForm: React.FC<SimulationFormProps> = ({ onContinue, onBack }) => {
+  const [inversionInicial, setInversionInicial] = useState<string>('');
+  const [inversionMensual, setInversionMensual] = useState<string>('');
+  const [duracionPlazo, setDuracionPlazo] = useState<string>('');
+  const [period, setPeriod] = useState<string>('years');
+  const [errors, setErrors] = useState<FormErrors>({});
+
+  const handleInversionInicialChange = (e: ChangeEvent<HTMLInputElement>): void => {
     const value = e.target.value;
     setInversionInicial(value);
     // Limpiar error cuando el usuario empiece a escribir
@@ -18,24 +29,24 @@ const SimulationForm = ({ onContinue, onBack }) => {
     }
   };
 
-  const handleInversionInicialBlur = (e) => {
+  const handleInversionInicialBlur = (e: FocusEvent<HTMLInputElement>): void => {
     const value = e.target.value;
     const formatted = formatMoneyInput(value);
     setInversionInicial(formatted);
   };
 
-  const handleInversionMensualChange = (e) => {
+  const handleInversionMensualChange = (e: ChangeEvent<HTMLInputElement>): void => {
     const value = e.target.value;
     setInversionMensual(value);
   };
 
-  const handleInversionMensualBlur = (e) => {
+  const handleInversionMensualBlur = (e: FocusEvent<HTMLInputElement>): void => {
     const value = e.target.value;
     const formatted = formatMoneyInput(value);
     setInversionMensual(formatted);
   };
 
-  const handleDuracionChange = (e) => {
+  const handleDuracionChange = (e: ChangeEvent<HTMLInputElement>): void => {
     const value = e.target.value;
     // Solo permitir números
     const numericValue = value.replace(/\D/g, '');
@@ -46,11 +57,11 @@ const SimulationForm = ({ onContinue, onBack }) => {
     }
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: FormEvent<HTMLFormElement>): void => {
     e.preventDefault();
     
     // Limpiar errores previos
-    const newErrors = {};
+    const newErrors: FormErrors = {};
 
     // Formatear campos antes de validar (por si el usuario no hizo blur)
     const formattedInicial = formatMoneyInput(inversionInicial);
@@ -215,5 +226,4 @@ const SimulationForm = ({ onContinue, onBack }) => {
 };
 
 export default SimulationForm;
-
 

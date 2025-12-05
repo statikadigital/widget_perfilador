@@ -1,7 +1,21 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, ChangeEvent } from 'react';
+import { Question } from '../types';
 import './QuestionForm.css';
 
-const QuestionForm = ({
+interface QuestionFormProps {
+  questions: Question[];
+  currentQuestion: Question;
+  questionIndex: number;
+  totalSteps: number;
+  selectedAnswer?: string | number;
+  onAnswerChange: (questionId: string, answerValue: string | number) => void;
+  onBack: () => void;
+  onContinue: (answerValue?: string | number | null) => void;
+  showContinueButton: boolean;
+  onShowBlocker?: (show: boolean) => void;
+}
+
+const QuestionForm: React.FC<QuestionFormProps> = ({
   questions,
   currentQuestion,
   questionIndex,
@@ -13,11 +27,11 @@ const QuestionForm = ({
   showContinueButton,
   onShowBlocker
 }) => {
-  const [error, setError] = useState('');
-  const [showContinueBtn, setShowContinueBtn] = useState(false);
-  const timeoutRef = useRef(null);
+  const [error, setError] = useState<string>('');
+  const [showContinueBtn, setShowContinueBtn] = useState<boolean>(false);
+  const timeoutRef = useRef<NodeJS.Timeout | null>(null);
 
-  const handleRadioChange = (questionId, answerValue) => {
+  const handleRadioChange = (questionId: string, answerValue: string | number): void => {
     setError('');
     
     // Limpiar timeout anterior si existe
@@ -51,7 +65,7 @@ const QuestionForm = ({
     };
   }, [questionIndex]);
 
-  const handleContinue = () => {
+  const handleContinue = (): void => {
     if (!selectedAnswer) {
       setError('Selecciona una respuesta para continuar');
       return;
@@ -107,7 +121,7 @@ const QuestionForm = ({
                   className="custom-control-input"
                   id={radioId}
                   name={`customRadio${currentQuestion.id}`}
-                  value={option.order}
+                  value={String(option.order)}
                   checked={isChecked}
                   onChange={() => handleRadioChange(currentQuestion.id, option.order)}
                 />

@@ -1,7 +1,11 @@
 import React from 'react';
 import './StepsIndicator.css';
 
-const StepsIndicator = ({ currentStep }) => {
+interface StepsIndicatorProps {
+  currentStep: number;
+}
+
+const StepsIndicator: React.FC<StepsIndicatorProps> = ({ currentStep }) => {
   return (
     <div className="steps-container">
       <div className="steps">
@@ -21,5 +25,4 @@ const StepsIndicator = ({ currentStep }) => {
 };
 
 export default StepsIndicator;
-
 
