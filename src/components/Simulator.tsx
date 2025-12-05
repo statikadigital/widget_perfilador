@@ -59,50 +59,66 @@ const Simulator: React.FC<SimulatorProps> = ({ initialData = null }) => {
     setProfile(risk);
   }, [initialData]);
 
-  // Función para procesar la simulación
+  // Función interna para realizar la llamada a la API
+  const performSimulationCall = async (data: SimulationData): Promise<void> => {
+    const invIni = moneyToNumber(data.inversionInicial || '0');
+    const invMen = moneyToNumber(data.inversionMensual || '0');
+    const periodo = data.period === 'years' ? 'anios' : 'meses';
+    const dur = Number(data.duracionPlazo || 0);
+    const currentProfile = profile;
+    const liquidity = data.selected === 'option1' ? 'Si' : 'No';
+    
+    const uuid = safeUUID();
+    let storedUuid = sessionStorage.getItem('uuid_principal_user');
+    if (!storedUuid) {
+      sessionStorage.setItem('uuid_principal_user', uuid);
+      storedUuid = uuid;
+    }
+
+    const payload = {
+      idSession: storedUuid,
+      initialInvestment: invIni,
+      monthlyContribution: invMen,
+      inversionDuracionTipo: periodo,
+      term: dur,
+      liquidity,
+      profile: currentProfile
+    };
+
+    const response = await getSimulatorResource(payload);
+    const responseApi = response?.Message?.responseApi ?? {};
+    const nivel = response?.Message?.nivel_portafolio ?? {};
+
+    setSimulationResult(responseApi);
+    setPortfolio(nivel);
+
+    // Extraer nombre del portafolio
+    const portafolio_1 = nivel.portafolio_1 || '';
+    const portafolio_2 = nivel.portafolio_2 ? (' + ' + nivel.portafolio_2) : '';
+    setPortfolioName(portafolio_1 + portafolio_2);
+  };
+
+  // Función para procesar la simulación con reintento
   const processSimulation = useCallback(async (data: SimulationData): Promise<void> => {
     setLoading(true);
     
     try {
-      const invIni = moneyToNumber(data.inversionInicial || '0');
-      const invMen = moneyToNumber(data.inversionMensual || '0');
-      const periodo = data.period === 'years' ? 'anios' : 'meses';
-      const dur = Number(data.duracionPlazo || 0);
-      const currentProfile = profile;
-      const liquidity = data.selected === 'option1' ? 'Si' : 'No';
-      
-      const uuid = safeUUID();
-      let storedUuid = sessionStorage.getItem('uuid_principal_user');
-      if (!storedUuid) {
-        sessionStorage.setItem('uuid_principal_user', uuid);
-        storedUuid = uuid;
-      }
-
-      const payload = {
-        idSession: storedUuid,
-        initialInvestment: invIni,
-        monthlyContribution: invMen,
-        inversionDuracionTipo: periodo,
-        term: dur,
-        liquidity,
-        profile: currentProfile
-      };
-
-      const response = await getSimulatorResource(payload);
-      const responseApi = response?.Message?.responseApi ?? {};
-      const nivel = response?.Message?.nivel_portafolio ?? {};
-
-      setSimulationResult(responseApi);
-      setPortfolio(nivel);
-
-      // Extraer nombre del portafolio
-      const portafolio_1 = nivel.portafolio_1 || '';
-      const portafolio_2 = nivel.portafolio_2 ? (' + ' + nivel.portafolio_2) : '';
-      setPortfolioName(portafolio_1 + portafolio_2);
-
+      // Primer intento
+      await performSimulationCall(data);
     } catch (error) {
-      console.error('Error en simulación:', error);
-      alert('Ocurrió un error al calcular la simulación. Por favor, intenta de nuevo.');
+      console.error('Error en primer intento de simulación:', error);
+      
+      // Reintento automático
+      try {
+        console.log('Reintentando simulación...');
+        await performSimulationCall(data);
+        // Si el reintento fue exitoso, salir sin mostrar error
+        return;
+      } catch (retryError) {
+        console.error('Error en reintento de simulación:', retryError);
+        // Si el reintento también falla, mostrar el error
+        alert('Ocurrió un error al calcular la simulación. Por favor, intenta de nuevo.');
+      }
     } finally {
       setLoading(false);
     }
