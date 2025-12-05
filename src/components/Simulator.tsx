@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { getSimulatorResource } from '../api';
 import { moneyToNumber, numberToMoney, getParam, safeUUID } from '../utils';
+import { SimulationData, SimulationResult, Portfolio } from '../types';
 import SimulatorForm from './SimulatorForm';
 import EmailForm from './EmailForm';
 import SimulationResults from './SimulationResults';
@@ -8,8 +9,12 @@ import PortfolioChart from './PortfolioChart';
 import PortfolioList from './PortfolioList';
 import './Simulator.css';
 
-const Simulator = ({ initialData = null }) => {
-  const [formData, setFormData] = useState({
+interface SimulatorProps {
+  initialData?: SimulationData | null;
+}
+
+const Simulator: React.FC<SimulatorProps> = ({ initialData = null }) => {
+  const [formData, setFormData] = useState<SimulationData>({
     inversionInicial: '',
     inversionMensual: '',
     duracionPlazo: 0,
@@ -17,17 +22,17 @@ const Simulator = ({ initialData = null }) => {
     selected: 'option2'
   });
   
-  const [profile, setProfile] = useState('Moderado');
-  const [simulationResult, setSimulationResult] = useState(null);
-  const [portfolio, setPortfolio] = useState(null);
-  const [portfolioName, setPortfolioName] = useState('');
-  const [loading, setLoading] = useState(false);
-  const [isFormExpanded, setIsFormExpanded] = useState(false);
-  const [isMobile, setIsMobile] = useState(window.innerWidth <= 699);
+  const [profile, setProfile] = useState<string>('Moderado');
+  const [simulationResult, setSimulationResult] = useState<SimulationResult | null>(null);
+  const [portfolio, setPortfolio] = useState<Portfolio | null>(null);
+  const [portfolioName, setPortfolioName] = useState<string>('');
+  const [loading, setLoading] = useState<boolean>(false);
+  const [isFormExpanded, setIsFormExpanded] = useState<boolean>(false);
+  const [isMobile, setIsMobile] = useState<boolean>(window.innerWidth <= 699);
 
   // Detectar si es mobile
   useEffect(() => {
-    const handleResize = () => {
+    const handleResize = (): void => {
       setIsMobile(window.innerWidth <= 699);
     };
     window.addEventListener('resize', handleResize);
@@ -48,14 +53,14 @@ const Simulator = ({ initialData = null }) => {
       inversionMensual: extra > 0 ? numberToMoney(extra) : (initialData?.inversionMensual || ''),
       duracionPlazo: noperiod || initialData?.duracionPlazo || 0,
       period: periodParam === 'years' ? 'anios' : (initialData?.period === 'years' ? 'anios' : 'anios'),
-      selected: selected || initialData?.selected || 'option2'
+      selected: (selected || initialData?.selected || 'option2') as 'option1' | 'option2'
     });
     
     setProfile(risk);
   }, [initialData]);
 
   // Función para procesar la simulación
-  const processSimulation = useCallback(async (data) => {
+  const processSimulation = useCallback(async (data: SimulationData): Promise<void> => {
     setLoading(true);
     
     try {
@@ -110,7 +115,7 @@ const Simulator = ({ initialData = null }) => {
     }
   }, [formData, processSimulation]);
 
-  const handleFormDataChange = useCallback((data) => {
+  const handleFormDataChange = useCallback((data: SimulationData): void => {
     setFormData(prevData => {
       // Solo actualizar si los valores realmente cambiaron
       if (
@@ -126,13 +131,13 @@ const Simulator = ({ initialData = null }) => {
     });
   }, []);
 
-  const handleToggleForm = () => {
+  const handleToggleForm = (): void => {
     setIsFormExpanded(!isFormExpanded);
   };
 
   // Preparar datos para el gráfico
-  const chartLabels = [];
-  const chartValues = [];
+  const chartLabels: string[] = [];
+  const chartValues: number[] = [];
   
   if (portfolio) {
     Object.entries(portfolio).forEach(([key, raw]) => {
@@ -146,7 +151,7 @@ const Simulator = ({ initialData = null }) => {
   }
 
   // Construir URL para el formulario de inversión
-  const getInversionFormUrl = () => {
+  const getInversionFormUrl = (): string => {
     const uuid = sessionStorage.getItem('uuid_principal_user') || safeUUID();
     const base = new URL('https://principal.com.mx/inversion/FondosE2E');
     base.searchParams.set('org', uuid);
