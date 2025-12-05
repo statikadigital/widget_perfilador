@@ -87,3 +87,27 @@ export interface FormErrors {
   [key: string]: string | undefined;
 }
 
+export interface SimulatorResourcePayload {
+  idSession: string;
+  initialInvestment: number;
+  monthlyContribution: number;
+  inversionDuracionTipo: 'anios' | 'meses';
+  term: number;
+  liquidity: 'Si' | 'No';
+  profile: string;
+}
+
+export interface RegisterAnswersPayload {
+  id_user: string;
+  question: string;
+  answer: string | number;
+}
+
+export interface ProfileMessages {
+  ideal: string;
+  intro: string;
+  description: string;
+}
+
+export type ProfileType = 'Tradicional' | 'Agresivo' | 'Conservador' | 'Moderado';
+

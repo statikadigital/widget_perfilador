@@ -1,8 +1,10 @@
 // Funciones para llamadas API
 
+import { CatalogResourceResponse, SimulatorResourceResponse, SimulatorResourcePayload, RegisterAnswersPayload, EmailData, OAuth2EmailData } from './types';
+
 const API_BASE = 'https://principal.com.mx';
 
-export async function fetchCatalogResource() {
+export async function fetchCatalogResource(): Promise<CatalogResourceResponse> {
   try {
     const response = await fetch(`${API_BASE}/rest-api/catalog-resource`, {
       method: 'POST',
@@ -17,7 +19,7 @@ export async function fetchCatalogResource() {
       throw new Error(`HTTP error! status: ${response.status}`);
     }
     
-    const data = await response.json();
+    const data = await response.json() as CatalogResourceResponse;
     return data;
   } catch (error) {
     console.error('Error cargando catálogo:', error);
@@ -25,14 +27,19 @@ export async function fetchCatalogResource() {
   }
 }
 
-export async function registerAnswers(id_user, question, answer) {
+export async function registerAnswers(
+  id_user: string, 
+  question: string, 
+  answer: string | number
+): Promise<{ Message?: { profile?: string } }> {
   try {
+    const payload: RegisterAnswersPayload = { id_user, question, answer };
     const response = await fetch(`${API_BASE}/getPerfilador`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ id_user, question, answer }),
+      body: JSON.stringify(payload),
       signal: AbortSignal.timeout(15000)
     });
     
@@ -49,7 +56,7 @@ export async function registerAnswers(id_user, question, answer) {
 }
 
 // Obtener token CSRF de Drupal
-export async function getDrupalCsrf() {
+export async function getDrupalCsrf(): Promise<string> {
   const KEY = 'drupal_csrf_token';
   const cached = sessionStorage.getItem(KEY);
   if (cached) return cached;
@@ -74,7 +81,7 @@ export async function getDrupalCsrf() {
 }
 
 // Llamar al simulador
-export async function getSimulatorResource(payload) {
+export async function getSimulatorResource(payload: SimulatorResourcePayload): Promise<SimulatorResourceResponse> {
   try {
     const csrf = await getDrupalCsrf();
     
@@ -96,7 +103,7 @@ export async function getSimulatorResource(payload) {
       throw new Error(`Simulator error: ${response.status}`);
     }
     
-    const data = await response.json();
+    const data = await response.json() as SimulatorResourceResponse;
     return data;
   } catch (error) {
     console.error('Error en simulador:', error);
@@ -105,7 +112,7 @@ export async function getSimulatorResource(payload) {
 }
 
 // Enviar email
-export async function sendEmail(emailData) {
+export async function sendEmail(emailData: EmailData): Promise<Response> {
   try {
     const response = await fetch(`${API_BASE}/sendEmail`, {
       method: 'POST',
@@ -130,7 +137,7 @@ export async function sendEmail(emailData) {
 }
 
 // Enviar email OAuth2
-export async function sendOauth2Emails(formattedData) {
+export async function sendOauth2Emails(formattedData: OAuth2EmailData): Promise<Response> {
   try {
     const response = await fetch(`${API_BASE}/sendOauth2Emails`, {
       method: 'POST',
@@ -151,5 +158,4 @@ export async function sendOauth2Emails(formattedData) {
     throw error;
   }
 }
-
 

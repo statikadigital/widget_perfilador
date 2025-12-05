@@ -1,19 +1,21 @@
 // Utilidades para el perfilador
 
-export function moneyToNumber(v) {
+import { ProfileMessages, ProfileType } from './types';
+
+export function moneyToNumber(v: string | number | null | undefined): number {
   if (v == null) return 0;
   const raw = String(v).replace(/[^\d.-]/g, '');
   const n = Number(raw);
   return Number.isFinite(n) ? n : 0;
 }
 
-export function intVal(v) {
+export function intVal(v: string | number | null | undefined): number {
   const n = Number(String(v ?? '').trim());
   return Number.isFinite(n) ? n : 0;
 }
 
-export function formatMoneyInput(value) {
-  if (!value || value.trim() === '') return '';
+export function formatMoneyInput(value: string | number | null | undefined): string {
+  if (!value || String(value).trim() === '') return '';
   // Si ya está formateado (contiene $), extraer solo los números
   const raw = String(value || '').split('.')[0].replace(/\D/g, '');
   if (!raw) return '';
@@ -22,26 +24,26 @@ export function formatMoneyInput(value) {
   return "$" + n.toLocaleString("es-MX") + ".00";
 }
 
-export function safeUUID() {
+export function safeUUID(): string {
   if (window.crypto?.randomUUID) return crypto.randomUUID();
-  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, c => {
+  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, (c: string): string => {
     const r = Math.random() * 16 | 0;
-    const v = c == 'x' ? r : (r & 0x3 | 0x8);
+    const v = c === 'x' ? r : (r & 0x3 | 0x8);
     return v.toString(16);
   });
 }
 
-export function getParam(name) {
+export function getParam(name: string): string {
   const v = new URLSearchParams(window.location.search).get(name);
   return v == null ? '' : v;
 }
 
-export function isEmpty(str) {
+export function isEmpty(str: string | null | undefined): boolean {
   return !String(str || '').trim().length;
 }
 
-export function getProfileMessages(profile) {
-  const messages = {
+export function getProfileMessages(profile: string | null | undefined): ProfileMessages {
+  const messages: Record<ProfileType, ProfileMessages> = {
     "Tradicional": {
       ideal: "De acuerdo a tus respuestas hemos calculado que tu perfil ideal es Tradicional; si estás de acuerdo, da clic en continuar o si lo deseas puedes repetir el perfilador.",
       intro: "Súper, con tu resultado nos damos cuenta que quieres empezar a invertir con paso firme.",
@@ -64,16 +66,15 @@ export function getProfileMessages(profile) {
     }
   };
   
-  return messages[profile] || messages["Moderado"];
+  return messages[profile as ProfileType] || messages["Moderado"];
 }
 
 // Formatear número a moneda mexicana
-export function numberToMoney(n) {
+export function numberToMoney(n: string | number | null | undefined): string {
   return new Intl.NumberFormat('es-MX', {
     style: 'currency',
     currency: 'MXN',
     maximumFractionDigits: 2
   }).format(Number(n || 0));
 }
-
 
