@@ -1,0 +1,14 @@
+.screen-blocker {
+  position: fixed;
+  inset: 0;
+  z-index: 999;
+  display: none;
+  background: rgba(255, 255, 255, 0.4);
+  cursor: progress;
+}
+
+.screen-blocker.show {
+  display: block;
+}
+
+

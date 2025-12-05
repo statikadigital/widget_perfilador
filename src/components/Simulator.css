@@ -1,0 +1,30 @@
+/* Estilos principales del Simulator */
+.perfil {
+  margin: 100px 0;
+}
+
+.box-border {
+  max-width: 1040px;
+  margin: 0 auto;
+}
+
+.wrap {
+  flex-wrap: wrap;
+  padding: 0 0 75px 0;
+}
+
+/* Responsive */
+@media (max-width: 699px) {
+  .perfil {
+    margin-top: 0;
+    margin-bottom: 0;
+  }
+}
+
+@media (max-width: 480px) {
+  .perfil {
+    margin-top: 0;
+    margin-bottom: 0;
+  }
+}
+

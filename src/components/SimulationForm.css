@@ -1,0 +1,104 @@
+.stage:not(.on) {
+  display: none;
+}
+
+.form-container {
+  max-width: 650px;
+}
+
+.form label {
+  font-size: 18px;
+  line-height: 20px;
+}
+
+.form label span {
+  font-family: 'fs_elliot_probold';
+}
+
+.form input:not([type="checkbox"]) {
+  max-width: 284px;
+  background-color: #fff;
+  border: 1px solid #ced4da;
+  height: 44px;
+}
+
+.dual-field {
+  display: flex;
+}
+
+.dual-field input {
+  width: 70px;
+  margin-right: 16px;
+}
+
+.dual-field select {
+  width: 106px;
+  background-color: #fff;
+  border: 1px solid #ced4da;
+  border-radius: 4px;
+  height: 44px;
+}
+
+.btns {
+  text-align: center;
+  margin: 65px 0;
+}
+
+.btn {
+  border: 1px solid #0061A0;
+  border-radius: 25px;
+  background-color: #fff;
+  color: #0061A0;
+  margin: 0 10px;
+  padding: 7px 20px 9px;
+  font-size: 16px;
+  line-height: 18px;
+  cursor: pointer;
+}
+
+.btn.main-btn {
+  background-color: #0061A0;
+  color: #fff;
+}
+
+.btn:hover {
+  background-color: rgba(0, 97, 160, 0.8);
+  color: #fff;
+}
+
+.error-stepo {
+  color: red !important;
+  border: 1px solid red !important;
+}
+
+.errortext {
+  color: red !important;
+}
+
+.title-area h2 {
+  font-family: 'fs_elliot_probold';
+  font-style: normal;
+  font-weight: 700;
+  font-size: 22px;
+  line-height: 24px;
+  text-align: center;
+  color: #004C97;
+}
+
+.return-button .btn {
+  border-radius: 0;
+  padding: 0 0 2px;
+  border: none;
+  border-bottom: 1px dashed #0061A0;
+  margin-bottom: 12px;
+}
+
+@media (max-width: 480px) {
+  .title-area h2 {
+    max-width: 200px;
+    margin: auto;
+    margin-bottom: 24px;
+  }
+}
+
+

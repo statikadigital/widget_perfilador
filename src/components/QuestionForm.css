@@ -1,0 +1,92 @@
+.container.formulario {
+  padding: 0 50px 28px;
+  max-width: 900px;
+  margin: auto;
+}
+
+.container form .indicacion p {
+  font-family: 'fs_elliot_probold';
+  font-style: normal;
+  font-size: 18px;
+  line-height: 20px;
+  color: #333;
+  text-align: start;
+  margin-bottom: 30px;
+  padding-left: 5px;
+}
+
+.container form .buttons .button {
+  margin-bottom: 25px;
+  margin-left: 25px;
+}
+
+.links-area {
+  display: flex;
+  margin: 0 auto 33px;
+  justify-content: space-between;
+  max-width: 800px;
+  width: 100%;
+  padding: 0 30px;
+}
+
+.btn-regresa {
+  border-radius: 0;
+  padding: 5px;
+  border: none;
+  border-bottom: 1px dashed #0061A0;
+  margin-bottom: 12px;
+  margin-left: -110px;
+  height: auto;
+  width: auto;
+  background: none;
+  color: #0061A0;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.title-form-area {
+  font-family: 'fs_elliot_probold';
+  font-weight: 700;
+  font-size: 22px;
+  line-height: 24px;
+  text-align: center;
+  color: #004C97;
+  margin: auto;
+  margin-bottom: 24px;
+  max-width: none;
+}
+
+.current-page {
+  font-family: 'fs_elliot_probold';
+  font-weight: 700;
+  font-size: 18px;
+  max-width: 30px;
+  margin: auto;
+  margin-bottom: 40px;
+}
+
+.custom-control-label {
+  font-size: 16px;
+}
+
+.custom-radio .custom-control-label::before,
+.custom-radio .custom-control-label::after {
+  left: -25px;
+}
+
+.continueLink {
+  margin-left: 50%;
+  transform: translateX(-50%);
+  margin-bottom: 40px;
+}
+
+@media (max-width: 480px) {
+  .container.formulario {
+    padding: 15px;
+  }
+  .btn-regresa {
+    margin-left: 0;
+  }
+}
+
+

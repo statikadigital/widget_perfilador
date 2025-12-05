@@ -1,0 +1,108 @@
+/* Estilos de la lista de portafolio */
+.inversion {
+  top: 250px;
+  padding: 0 43px;
+  position: absolute;
+  right: 0;
+}
+
+.inversion h3 {
+  font-size: 16px;
+  margin-bottom: 10px;
+}
+
+.inversion p {
+  font-size: 14px;
+  margin-bottom: 12px;
+}
+
+.activos {
+  background-color: inherit;
+  margin-bottom: 50px;
+}
+
+#activostitulo {
+  display: none;
+}
+
+.activos ul {
+  list-style: none;
+  padding: unset;
+  margin: 0;
+}
+
+.activos ul li {
+  display: flex;
+  text-transform: capitalize;
+}
+
+.activos ul li:before {
+  width: 10px;
+  height: 10px;
+  position: relative;
+  display: block;
+  top: 7px;
+  left: -5px;
+}
+
+.activos ul li:first-of-type:before {
+  background-color: #43729c;
+}
+
+.activos ul li:nth-of-type(2):before {
+  background-color: #4e85b6;
+}
+
+.activos ul li:nth-of-type(3):before {
+  background-color: #5795cc;
+}
+
+.activos ul li:nth-of-type(4):before {
+  background-color: #95bee4;
+}
+
+.activos ul li:nth-of-type(5):before {
+  background-color: #bad5ed;
+}
+
+.activos ul li:nth-of-type(6):before {
+  background-color: #d3e4f4;
+}
+
+.activos ul li:nth-of-type(7):before {
+  background-color: #bad5ed;
+}
+
+.activos ul li:nth-of-type(8):before {
+  background-color: #d0dbf0;
+}
+
+.activos ul li span {
+  font-weight: 400;
+  margin-left: auto;
+}
+
+.full-bar {
+  height: 5px;
+  background-color: #D2F1FD;
+  border-radius: 7px;
+  width: 100%;
+}
+
+.parcial-bar {
+  height: 5px;
+  background-color: #0061A0;
+  border-radius: 7px;
+  margin-top: -5px;
+  margin-bottom: 5px;
+  transition: width .3s ease;
+}
+
+/* Mobile styles */
+@media (max-width: 480px) {
+  .inversion {
+    position: static;
+    padding: 0 15px;
+  }
+}
+

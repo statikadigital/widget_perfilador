@@ -1,0 +1,311 @@
+/* Estilos del formulario del simulador - Específicos para evitar conflictos */
+.perfil .form-col {
+  flex-wrap: wrap;
+}
+
+.perfil .form-col.activated {
+  height: 577px;
+}
+
+/* Usar selector más específico para evitar conflictos con el perfilador */
+.perfil .form-container,
+.simulator-form-container {
+  display: flex;
+  flex-direction: column;
+  max-width: 324px;
+  width: 100%;
+  padding: 35px 25px 56px 25px;
+  border-radius: 15px;
+  text-align: left;
+  background: linear-gradient(136.44deg, #002855 12.86%, #004C97 100%);
+  color: white;
+  max-height: 615px;
+}
+
+.perfil .form-container .font-bold-custom,
+.simulator-form-container .font-bold-custom {
+  font-family: var(--typography-font-secondary) !important;
+}
+
+.perfil .input-container,
+.simulator-form-container .input-container {
+  margin-bottom: 24px;
+  position: relative;
+}
+
+.perfil .input-container .label,
+.simulator-form-container .input-container .label {
+  margin-bottom: 10px;
+  display: flex;
+  position: relative;
+  flex-wrap: wrap;
+}
+
+.perfil .input-container .label p,
+.simulator-form-container .input-container .label p {
+  margin-bottom: 0;
+  margin-right: 5px;
+  line-height: 18px;
+  font-size: 14px;
+}
+
+.perfil .input-container .label p span,
+.simulator-form-container .input-container .label p span {
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.perfil .input-container input,
+.simulator-form-container .input-container input {
+  width: 100%;
+  font-size: 14px;
+  height: 50px;
+  border-radius: 4px;
+  box-shadow: none;
+  border: 1px solid #000;
+  padding: 0 15px;
+}
+
+.perfil .input-container .status,
+.simulator-form-container .input-container .status {
+  display: none;
+  width: 20px;
+  position: absolute;
+  right: 10px;
+  top: 80px;
+}
+
+.perfil .input-container .status.status-ok,
+.simulator-form-container .input-container .status.status-ok {
+  color: rgb(0, 145, 218);
+  display: block;
+}
+
+.perfil .input-container .status.status-not-ok,
+.simulator-form-container .input-container .status.status-not-ok {
+  color: red;
+  display: block;
+}
+
+.perfil .status-msg,
+.simulator-form-container .status-msg {
+  display: none;
+  color: rgb(255, 0, 0);
+}
+
+.perfil .status-msg:not(.d-none),
+.simulator-form-container .status-msg:not(.d-none) {
+  display: block;
+}
+
+.perfil .small-label,
+.simulator-form-container .small-label {
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.jss1 {
+  margin: 0px 0px 10px 0px;
+  display: flex;
+  flex-direction: column;
+}
+
+.lbatDQ {
+  display: flex;
+  flex-direction: row;
+}
+
+.jss2 {
+  width: 30%;
+  height: 27px;
+  background: #FFFFFF;
+  margin-right: 10px;
+  border-radius: 4px;
+}
+
+#LPF_Cambiar_Duracion_plazo {
+  font-size: 14px;
+  height: 50px;
+  border-radius: 4px;
+  box-shadow: none;
+  border: 1px solid #000;
+}
+
+.MuiInput-underline::before {
+  left: 0;
+  right: 0;
+  bottom: 0;
+  content: "\00a0";
+  position: absolute;
+  transition: border-bottom-color 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  border-bottom: 1px solid white;
+  pointer-events: none;
+}
+
+#activoslistado {
+  font-size: 14px;
+}
+
+input[type="number"] {
+  color: #464646;
+  font-family: "fs_elliot_proregular", 'FontAwesome', "Arial", arial, sans-serif;
+  border: 1px solid #e6e6e6;
+  font-size: 14px;
+  box-shadow: none;
+  display: block;
+  width: 100%;
+  padding-left: 12px;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+}
+
+.MuiInput-underline::after {
+  left: 0;
+  right: 0;
+  bottom: 0;
+  content: "";
+  position: absolute;
+  transform: scaleX(0);
+  transition: transform 200ms cubic-bezier(0.0, 0, 0.2, 1) 0ms;
+  border-bottom: 2px solid #3f51b5;
+  pointer-events: none;
+}
+
+.bJqQyw {
+  box-sizing: border-box;
+  width: 70%;
+  height: 26.95px;
+  background: rgb(255, 255, 255);
+  border: 1px solid rgb(51, 51, 51);
+  border-radius: 4px;
+  padding-right: 20px !important;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  font-size: 14px;
+  height: 50px;
+  border-radius: 4px;
+  box-shadow: none;
+  border: 1px solid #000;
+  padding: 0 15px;
+}
+
+.MuiSlider-root {
+  background: black;
+  width: 100%;
+  cursor: pointer;
+  height: 2px;
+  display: inline-block;
+  padding: inherit;
+  position: relative;
+  box-sizing: content-box;
+  touch-action: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.MuiSlider-rail {
+  width: 100%;
+  height: 2px;
+  display: block;
+  opacity: 0.38;
+  position: absolute;
+  border-radius: 1px;
+  background-color: currentColor;
+}
+
+.MuiSlider-track {
+  height: 2px;
+  display: block;
+  position: absolute;
+  border-radius: 1px;
+  background-color: currentColor;
+}
+
+.sc-jdAMXn.bJqQyw {
+  box-sizing: border-box;
+  width: 70%;
+  height: 50px;
+  background: rgb(255, 255, 255);
+  border: 1px solid rgb(51, 51, 51);
+  border-radius: 4px;
+  padding: 0 15px;
+  font-size: 14px;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+}
+
+.toggle-button {
+  text-align: center;
+  padding-top: 10px;
+  padding-left: 15px;
+  padding-right: 15px;
+  cursor: pointer;
+}
+
+.toggle-button p {
+  margin-top: 10px;
+  color: #0f569d;
+  cursor: pointer;
+}
+
+.button-save-form {
+  margin: 0 auto;
+  width: 100px;
+  text-align: center;
+  border: 1px solid #002E6D;
+  border-radius: 30px;
+  cursor: pointer;
+}
+
+.button-save-form p {
+  padding: 5px 10px;
+  margin-bottom: 0;
+  color: #002E6D;
+}
+
+/* Mobile styles */
+@media (max-width: 699px) {
+  .perfil .form-col,
+  .simulator-form-container {
+    position: absolute;
+    top: 410px;
+    left: 0;
+    z-index: 99;
+    height: 75px;
+    overflow: hidden;
+    flex-direction: column;
+    transition: height 0.3s ease;
+    flex-wrap: nowrap;
+  }
+
+  .perfil .form-col.activated,
+  .simulator-form-container.activated {
+    height: 577px;
+  }
+
+  .perfil .form-container,
+  .simulator-form-container {
+    background: transparent;
+    color: inherit;
+    border-radius: 0;
+    padding: 10px 57px 56px 47px;
+  }
+
+  .perfil .input-container .status,
+  .simulator-form-container .input-container .status {
+    top: 70px;
+  }
+
+  .perfil .input-container:nth-of-type(2) .status,
+  .simulator-form-container .input-container:nth-of-type(2) .status {
+    top: 68px;
+  }
+
+  .perfil .small-label,
+  .simulator-form-container .small-label {
+    display: none;
+  }
+}
+

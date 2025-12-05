@@ -1,0 +1,121 @@
+/* Estilos del formulario de email - Específicos para el simulador */
+.perfil .form-email.input-container,
+.simulator-email-form {
+  margin-top: 50px;
+}
+
+.perfil .form-email.desktop,
+.simulator-email-form.desktop {
+  padding: 0 25px;
+  display: flex;
+}
+
+.perfil .form-email.desktop p,
+.simulator-email-form.desktop p {
+  color: #004C97;
+  max-width: 220px;
+  font-family: "fs_elliot_proregular";
+}
+
+.perfil .form-email.desktop p span,
+.simulator-email-form.desktop p span {
+  font-family: "fs_elliot_probold";
+}
+
+.perfil .form-email.input-container.desktop input,
+.simulator-email-form.desktop input {
+  height: 50px;
+}
+
+.perfil .form-email.input-container.desktop button,
+.simulator-email-form.desktop button {
+  margin-top: 10px;
+  padding: 8px 0;
+  background-color: #006699;
+  border: none;
+  border-radius: 100px;
+  font-size: 16px;
+  line-height: 20px;
+  color: #fff;
+  width: 90%;
+  cursor: pointer;
+}
+
+.perfil .form-email.input-container.desktop button:disabled,
+.simulator-email-form.desktop button:disabled {
+  background-color: #F6F6F8;
+  color: #9D9EA4;
+  cursor: not-allowed;
+}
+
+.perfil .form-email.input-container.mobile,
+.simulator-email-form.mobile {
+  text-align: left;
+  margin-bottom: 0;
+}
+
+.perfil .form-email.input-container.mobile p span,
+.simulator-email-form.mobile p span {
+  font-weight: bold;
+  margin-bottom: 12px;
+  color: #1A426F;
+}
+
+.perfil .form-email.input-container.mobile .label,
+.simulator-email-form.mobile .label {
+  display: inherit;
+}
+
+.perfil .form-email.input-container.mobile input,
+.simulator-email-form.mobile input {
+  margin-bottom: 10px;
+  width: 70%;
+}
+
+.perfil .form-email.input-container.mobile .form-area-email,
+.simulator-email-form.mobile .form-area-email {
+  margin-bottom: 0;
+}
+
+.perfil .form-email.input-container.mobile button,
+.simulator-email-form.mobile button {
+  background-color: #006699;
+  border: none;
+  border-radius: 100px;
+  font-family: 'fs_elliot_probold';
+  font-style: normal;
+  font-size: 16px;
+  line-height: 28px;
+  color: #fff;
+  margin: inherit;
+  margin-bottom: 0;
+  width: 60%;
+  cursor: pointer;
+}
+
+.perfil .form-email.input-container.mobile button:disabled,
+.simulator-email-form.mobile button:disabled {
+  background-color: #F6F6F8;
+  color: #9D9EA4;
+  cursor: not-allowed;
+}
+
+@media (max-width: 699px) {
+  .perfil .form-email.desktop,
+  .simulator-email-form.desktop {
+    display: none !important;
+  }
+
+  .perfil .form-email.mobile,
+  .simulator-email-form.mobile {
+    display: block !important;
+  }
+}
+
+@media (min-width: 700px) {
+  .perfil .form-email.mobile,
+  .simulator-email-form.mobile {
+    display: none !important;
+  }
+}
+

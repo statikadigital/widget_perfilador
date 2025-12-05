@@ -1,0 +1,601 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Perfilador</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" />
+</head>
+<body>
+<div id="perfilador" class="block block-pfg-pds-blocks block-pfg-components-text">
+  
+    
+      <style>
+  .form-check-input { padding: 0 !important }
+  .stage:not(.on) { display: none; }
+  #formc-1>.col>p { display: none; }
+
+  /* Unificado: mismo nodo con ambas clases */
+  .sc-cZwWEu.kvlxRA {
+    text-align: center;
+    margin-top: 50px;
+    display: flex; flex-direction: column; align-items: center;
+  }
+
+  .form-container { max-width: 650px; }
+  .steps { margin: 40px auto 80px; display: flex; max-width: 300px; position: relative; }
+  .progress-bar { max-width: 250px; height: 2px; width: 100%; background-color: #616267; margin: auto; }
+  .step { position: absolute; text-align: center; font-size: 14px; line-height: 15px; }
+  .step::before {
+    content: ""; display: block; position: relative; background-color: #fff;
+    border: 1px solid #616267; width: 21px; aspect-ratio: 1/1; border-radius: 100%;
+    left: 50%; transform: translate(-50%, -50%); top: 0;
+  }
+  .step.on::before { border: 1px solid #00EFE8; }
+  .step.on::after {
+    content: ""; display: block; position: relative; background-color: #00EFE8;
+    border: 1px solid #00EFE8; width: 14px; aspect-ratio: 1/1; border-radius: 100%;
+    left: 50%; transform: translateX(-50%); top: -58px;
+  }
+  .step2.on::after { top: -43px; }
+  .step1 { left: 0; }
+  .step2 { left: 50%; transform: translateX(-50%); }
+  .step3 { right: 0; }
+  .instructions { font-family: 'fs_elliot_probold'; font-size: 20px; line-height: 22px; margin-bottom: 40px; }
+  .form label { font-size: 18px; line-height: 20px; }
+  .form label span { font-family: 'fs_elliot_probold'; }
+  .form input:not([type="checkbox"]) {
+    max-width: 284px; background-color: #fff; border: 1px solid #ced4da; height: 44px;
+  }
+  .checks { margin: 26px 0; padding-left: 30px; }
+  .dual-field { display: flex; }
+  .dual-field input { width: 70px; margin-right: 16px; }
+  .dual-field select {
+    width: 106px; background-color: #fff; border: 1px solid #ced4da; border-radius: 4px; height: 44px;
+  }
+  .form-check { margin: 12px 44px 24px 0; }
+  .btns { text-align: center; margin: 65px 0; }
+  .btn {
+    border: 1px solid #0061A0; border-radius: 25px; background-color: #fff; color: #0061A0;
+    margin: 0 10px; padding: 7px 20px 9px; font-size: 16px; line-height: 18px; cursor: pointer;
+  }
+  .btn.main-btn { background-color: #0061A0; color: #fff; }
+  .btn:hover { background-color: rgba(0, 97, 160, .8); color: #fff; }
+  .error-stepo { color: red !important; border: 1px solid red !important; }
+  .errortext { color: red !important; }
+  .title-area h2 {
+    font-family: 'fs_elliot_probold'; font-style: normal; font-weight: 700; font-size: 22px; line-height: 24px;
+    text-align: center; color: #004C97;
+  }
+  .return-button .btn {
+    border-radius: 0; padding: 0 0 2px; border: none; border-bottom: 1px dashed #0061A0; margin-bottom: 12px;
+  }
+  .steps-container { height: 56px; margin-bottom: 20px; box-shadow: 0 4px 4px rgba(0,0,0,0.1); }
+  @media (max-width:480px) {
+    .title-area h2 { max-width: 200px; margin: auto; margin-bottom: 24px; }
+  }
+
+  /* Blocker fijo sobre toda la pantalla */
+  .screen-blocker {
+    position: fixed; inset: 0; z-index: 999; display: none;
+    background: rgba(255,255,255,.4); cursor: progress;
+  }
+  .screen-blocker.show { display: block; }
+
+  /* --- Segundo bloque de estilos (formulario dinámico) --- */
+  .container.formulario { padding: 0 50px 28px; max-width: 900px; margin: auto; }
+  b { font-weight: bold; }
+  .jss146 { display: flex; font-size: 20px; line-height: 22px; align-items: end; margin-left: 10px; align-content: center; justify-content: flex-start; font-family: "FS Elliot Web Regular", Arial, arial, sans-serif; }
+  .jss145 { padding: 25px 45px 0; box-shadow: 0 0 4px rgba(0, 0, 0, 0.25); border-radius: 10px; margin: 0 25px 12px; }
+  .text-default { margin: 0 25px; }
+  .final_profile { color: #003865; background-color: #dcf94d; text-transform: uppercase; }
+  .jss147 { font-size: 22px; font-family: 'fs_elliot_probold'; margin-bottom: 10px; }
+  .container form .indicacion p {
+    font-family: 'fs_elliot_probold'; font-style: normal; font-size: 18px; line-height: 20px; color: #333; text-align: start; margin-bottom: 30px; padding-left: 5px;
+  }
+  .container form .buttons .button { margin-bottom: 25px; margin-left: 25px; }
+  .container form .links-area { text-align: center; max-width: 350px; margin: 0 auto 50px; width: fit-content; }
+  .container form a { color: black; padding: 8px 25px; margin-right: 25px; border-radius: 25px; background-color: white; }
+  .container form a.no-padding { margin-right: 0; }
+  .hpqTPX, #LPF_Intentalo_de_nuevo {
+    width: 133px; height: 48px; background: #fff; border-radius: 40px; color: #0061A0; font-family: var(--typography-font-default);
+    font-weight: 400; font-size: 16px; line-height: 18px; text-align: center; box-shadow: none; border: 1px solid #0061A0; transition: background-color .2s;
+  }
+  #LPF_Intentalo_de_nuevo { width: auto; border: none; border-bottom: 1px dashed #0061A0; border-radius: 0; height: auto; margin-left: -50px; margin-bottom: 36px; }
+  .jjDeLu, #LPF_Avanzar_a_simulador {
+    width: 133px; height: 48px; background: #0061A0; border-radius: 40px; color: #fff; font-family: var(--typography-font-default);
+    font-weight: 400; font-size: 16px; line-height: 18px; text-align: center; box-shadow: none; border: none; margin-bottom: 24px; transition: background-color .2s;
+  }
+  .sc-cZwWEu.kvlxRA .pds-link { border-bottom: 1px dashed #0061A0; color: #0061A0; text-decoration: none; }
+  .custom-radio .custom-control-label::before, .custom-radio .custom-control-label::after { left: -25px; }
+  #btn-regresa {
+    border-radius: 0; padding: 5px; border: none; border-bottom: 1px dashed #0061A0; margin-bottom: 12px;
+    margin-left: -110px; height: auto; width: auto;
+  }
+  .current-page { font-family: 'fs_elliot_probold'; font-weight: 700; font-size: 18px; max-width: 30px; margin: auto; margin-bottom: 40px; }
+  .title-form-area {
+    font-family: 'fs_elliot_probold'; font-weight: 700; font-size: 22px; line-height: 24px; text-align: center; color: #004C97;
+    margin: auto; margin-bottom: 24px; max-width: none;
+  }
+  .jss148 { max-width: 600px; }
+  .jss149 { max-width: 580px; }
+  .img-area.final-profile-image img { height: auto; width: 53px; }
+  .row-final-profile-title { margin-bottom: 12px; }
+  @media (max-width: 480px) {
+    .jjDeLu, #LPF_Avanzar_a_simulador { margin-top: 10px; margin-left: 0; }
+    .jss145 .row { margin: 0 0 12px 0; }
+    .container.formulario { padding: 15px; }
+    #btn-regresa { margin-left: 0; }
+    #LPF_Intentalo_de_nuevo { margin-left: 25px; }
+    .jss148, .jss149 { max-width: 100%; }
+    .jss145 { padding: 15px 25px 0; }
+  }
+  .loader {
+    border: 16px solid #f3f3f3; border-top: 16px solid #3498db; border-radius: 50%;
+    width: 100px; height: 100px; animation: spin 2s linear infinite;
+  }
+  .center { margin: 0 auto; }
+  @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+  .dottedlink { display: block; margin-top: 10px; color: #0061a0; text-decoration: underline; text-decoration-style: dotted; }
+  .dottedlink:hover { border-bottom: none; }
+  .links-area { display: flex; margin: 0 auto 33px; justify-content: space-between; max-width: 800px; width: 100%; padding: 0 30px; }
+  .custom-control-label { font-size: 16px; }
+  .modal-backdrop { background-color: rgba(0,0,0,0.5); }
+  #continueLink { margin-left: 50%; transform: translateX(-50%); margin-bottom: 40px; }
+</style>
+
+<div class="screen-blocker"></div>
+
+<div class="steps-container">
+  <div class="steps">
+    <div class="progress-bar"></div>
+    <div class="step step1 on">Datos de<br>simulación</div>
+    <div class="step step2">Perfílate</div>
+    <div class="step step3">Simulación</div>
+  </div>
+</div>
+
+<div class="stage on">
+  <div class="form-container container">
+    <div class="col">
+      <div class="return-button">
+        <button type="button" class="btn LPF_Regresar_Pregunta" id="LPF_Regresar_Pregunta">Regresar</button>
+      </div>
+      <div class="title-area"><h2>¡Vamos a simular tu inversión!</h2></div>
+
+      <div class="form">
+        <form>
+          <div class="form-group">
+            <label for="LPF_Inversion_inicial"><span>¿Cuánto piensas invertir?</span></label><br>
+            <label for="LPF_Inversion_inicial">Este depósito puede ser desde $1,000 pesos.</label>
+            <input class="form-control LPF_Inversion_inicial" id="LPF_Inversion_inicial" required type="text">
+            <div id="error_amount" class="errortext d-none" aria-live="polite"></div>
+          </div>
+
+          <div class="form-group">
+            <label for="LPF_Inversion_Mensual"><span>Llega más pronto a tu meta aportando más dinero cada
+              mes, ¿cuánto te gustaría?</span></label>
+            <input class="form-control LPF_Inversion_Mensual" id="LPF_Inversion_Mensual" type="text">
+          </div>
+
+          <div class="form-group">
+            <p>
+              <label for="LPF_Duracion_plazo"><span>¿Por cuánto tiempo quieres dejar tu inversión?</span>
+                A mayor plazo la rentabilidad suele ser superior.</label>
+            </p>
+            <div class="dual-field">
+              <input class="form-control LPF_Duracion_plazo" id="LPF_Duracion_plazo" required type="text">
+              <select id="period" name="period">
+                <option value="years">Años</option>
+                <option value="months">Meses</option>
+              </select>
+            </div>
+            <div id="error_noperiod" class="errortext d-none" aria-live="polite"></div>
+          </div>
+
+          <div class="d-none form-group liquidezcontainer">
+            <p>
+              <label><span>¿Quieres tener disponible tu dinero cuando lo necesites?</span>
+                (Para cualquier eventualidad puedes contar con un porcentaje de tu inversión).</label>
+            </p>
+            <div class="d-none form-check form-check-inline">
+              <input class="form-check-input LPF_Formulario_Si_Liquidez" checked id="LPF_Formulario_Si_Liquidez" name="inlineRadioOptions" type="radio" value="option1">
+              <label class="form-check-label" for="LPF_Formulario_Si_Liquidez">Sí</label>
+            </div>
+            <div class="d-none form-check form-check-inline">
+              <input class="form-check-input LPF_Formulario_No_Liquidez" id="LPF_Formulario_No_Liquidez" name="inlineRadioOptions" type="radio" value="option2">
+              <label class="form-check-label" for="LPF_Formulario_No_Liquidez">No</label>
+            </div>
+            <div id="error_liquidez" class="errortext d-none" aria-live="polite"></div>
+          </div>
+
+          <div class="small-text">
+            <p><span>Los resultados del cálculo en ningún caso garantiza rendimiento futuros</span></p>
+          </div>
+
+          <div class="btns">
+            <button type="button" class="btn main-btn LPF_Avanzar_Pregunta" id="LPF_Avanzar_Pregunta">Continuar</button>
+          </div>
+        </form>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<section class="d-none" id="waiter_form">
+  <div class="loader center"></div>
+</section>
+
+<section id="container_form"></section>
+
+<div class="container formulario d-none" id="form-final">
+  <p>
+    <button type="button" class="sc-ezWOiH kmCGjQ LPF_Intentalo_de_nuevo" color="#0061A0" id="LPF_Intentalo_de_nuevo">Perfilarme de nuevo</button>
+  </p>
+  <div class="question-wrapper">
+    <div class="jss145">
+      <div class="row row-final-profile-title">
+        <div class="img-area final-profile-image">
+          <img src="https://www.principal.com.mx/sites/default/files/2023-06/Group.png" alt="Final Profile Image" width="53" height="74">
+        </div>
+        <div class="jss146">
+          <span>Tu perfil es&nbsp;</span><br>
+          <b class="final_profile" id="final_profile"><span><strong>agresivo</strong></span></b>
+        </div>
+      </div>
+      <div class="row">
+        <div class="jss148">
+          <p id="final_message">
+            ¡Aah caray! tu resultado va de acuerdo con un inversionista que busca que su dinero se eleve hasta el cielo. Te podemos ayudar.
+          </p>
+        </div>
+      </div>
+      <div class="jss150 row">
+        <div class="jss149">
+          <p id="final_description">
+            A los inversionistas con este perfil no les importa ver disminución en el saldo de su patrimonio provocado por la volatilidad...
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div class="text-default">
+      <p>Si estás de acuerdo con tu perfil da clic en continuar o si lo deseas puedes volver a repetir las preguntas.</p>
+    </div>
+
+    <div class="sc-cZwWEu.kvlxRA">
+      <button type="button" class="sc-ezWOiH cBpLdP LPF_Avanzar_a_simulador" id="LPF_Avanzar_a_simulador">
+        Continuar
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- jQuery completo (no SLIM) -->
+<script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha384-xBuQ/xzmlsLoJpyjoggmTEz8OWUFM0/RC5BsqQBDX2v5cMvDHcMakNTNrHIW2I5f" crossorigin="anonymous"></script>
+
+<script>
+  // ---------- Utils ----------
+  function moneyToNumber(v){
+    if (v == null) return 0;
+    const raw = String(v).replace(/[^\d.-]/g,'');
+    const n = Number(raw);
+    return Number.isFinite(n) ? n : 0;
+  }
+  function intVal(v){
+    const n = Number(String(v ?? '').trim());
+    return Number.isFinite(n) ? n : 0;
+  }
+  function formatMoneyInput($input){
+    const raw = String($input.val()||'').split('.')[0].replace(/\D/g,'');
+    if (!raw) { $input.val(''); return; }
+    const n = Number(raw);
+    $input.val("$" + n.toLocaleString("es-MX") + ".00");
+  }
+  function safeUUID(){
+    if (window.crypto?.randomUUID) return crypto.randomUUID();
+    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, c=>{
+      const r = Math.random()*16|0, v = c=='x' ? r : (r&0x3|0x8);
+      return v.toString(16);
+    });
+  }
+  function getParam(name){
+    const v = new URLSearchParams(location.search).get(name);
+    return v == null ? '' : v;
+  }
+  function isEmpty(str){ return !String(str||'').trim().length; }
+
+  // ---------- State ----------
+  var $selectedStep = 1;
+
+  // ---------- Initial form handlers ----------
+  jQuery("#LPF_Inversion_Mensual").on('change', function(){ formatMoneyInput(jQuery(this)); });
+  jQuery("#LPF_Inversion_inicial").on('change', function(){ formatMoneyInput(jQuery(this)); });
+
+  document.getElementById('LPF_Avanzar_Pregunta').addEventListener('click', stepsStage);
+
+  function stepsStage(evt){
+    evt.preventDefault();
+
+    let error_count = 0;
+
+    jQuery("#error_amount,#error_noperiod,#error_liquidez").addClass('d-none').text('');
+    jQuery("#LPF_Duracion_plazo,#LPF_Inversion_inicial").removeClass('error-stepo');
+    jQuery(".liquidezcontainer").removeClass('error-stepo');
+
+    const amountNum   = moneyToNumber(jQuery("#LPF_Inversion_inicial").val());
+    const noperiodNum = intVal(jQuery("#LPF_Duracion_plazo").val());
+
+    if (amountNum < 1000){
+      jQuery("#LPF_Inversion_inicial").addClass('error-stepo');
+      jQuery("#error_amount").removeClass('d-none').text('El monto a invertir debe ser mayor o igual a $1,000');
+      error_count++;
+    }
+
+    if (noperiodNum <= 0){
+      jQuery("#LPF_Duracion_plazo").addClass('error-stepo');
+      jQuery("#error_noperiod").removeClass('d-none').text('El plazo a invertir debe ser mayor a 0');
+      error_count++;
+    }
+
+    // Valida liquidez sólo si ese bloque es visible
+    if (!jQuery('.liquidezcontainer').hasClass('d-none')){
+      const selected = jQuery("input[type='radio'][name='inlineRadioOptions']:checked");
+      if (!selected.length){
+        jQuery(".liquidezcontainer").addClass('error-stepo');
+        jQuery("#error_liquidez").removeClass('d-none').text('¿Necesitas tener liquidez?');
+        error_count++;
+      }
+    }
+
+    jQuery(".step2").addClass("on");
+
+    if (error_count === 0){
+      jQuery(".stage").removeClass("on");
+      // Mostrar loader general si quieres:
+      // jQuery("#waiter_form").removeClass('d-none');
+      steps();
+    }
+  }
+
+  // ---------- Flow ----------
+  function steps(){
+    // UUID session
+    let mode = sessionStorage.getItem('uuid_principal_user');
+    if (!mode){
+      mode = safeUUID();
+      sessionStorage.setItem("uuid_principal_user", mode);
+    }
+
+    // POST a /rest-api/catalog-resource (JSON)
+    // Si tu backend espera form-urlencoded, quita contentType y usa data: { ... } directo
+    jQuery.ajax({
+      method: "POST",
+      url: "https://principal.com.mx/rest-api/catalog-resource",
+      dataType: "json",
+      contentType: "application/json",
+      data: JSON.stringify({}), // payload si el backend lo requiere
+      timeout: 15000
+    })
+    .done(function(obj){
+      // Construye UI
+      const arrayw = obj.result || [];
+      arrayw.forEach((element, index) => builderForm(element, index));
+
+      const imghtml = jQuery("<img>", { src: "https://www.principal.com.mx/sites/default/files/2022-10/rowl.png", style: "width: auto; margin-right: 10px;" });
+      const linkbutton = jQuery("<button>", { type:"button", class: "sc-ezWOiH hpqTPX", color: "#0061A0", id: 'btn-regresa' }).append(imghtml).append(' Regresar');
+      const paginator = jQuery("<div>", { class: "current-page" }).append($selectedStep).append("/5");
+      const paginatorContainer = jQuery("<div>", { class: "paginator-container" }).append(paginator);
+      const linksarea = jQuery("<div>", { class: "links-area" }).append(linkbutton);
+      const continueLink = jQuery("<button>", { type:"button", class: "continueLink btn main-btn d-none", color: "#0061A0", id: 'continueLink' }).append(' Continuar');
+      const titleFormArea = jQuery("<div>", { class: "title-form-area" }).append("¿Qué tipo de inversionista eres?");
+
+      jQuery('#container_form').prepend(titleFormArea);
+      jQuery('#container_form').prepend(linksarea);
+      jQuery('#container_form').append(paginatorContainer);
+      jQuery('#container_form').append(continueLink);
+
+      jQuery('#formc-' + $selectedStep).removeClass('d-none');
+
+      jQuery("#btn-regresa").on("click", function(evt){
+        evt.preventDefault();
+        if ($selectedStep == 1) {
+          window.location.reload();
+        }
+        if ($selectedStep > 1) {
+          jQuery('.formulario').addClass("d-none");
+          $selectedStep--;
+          jQuery(".current-page").text($selectedStep + "/5");
+          jQuery('#formc-' + $selectedStep).removeClass('d-none');
+          jQuery('#continueLink').addClass('d-none');
+        }
+        if ($selectedStep < 2) { jQuery("#btn-regresa").text("Regresar"); }
+      });
+
+      jQuery("#LPF_Intentalo_de_nuevo").on("click", function(evt){
+        evt.preventDefault();
+        $selectedStep = 2;
+        jQuery('#container_form').removeClass('d-none');
+        jQuery("#btn-regresa").trigger("click");
+      });
+
+      jQuery("#LPF_Avanzar_a_simulador").on("click", function(evt){
+        evt.preventDefault();
+
+        let inversion_inicial = getParam('iinicial') || jQuery("#LPF_Inversion_inicial").val();
+        let inversion_mensual = getParam('imensual') || jQuery("#LPF_Inversion_Mensual").val();
+
+        let ammount = moneyToNumber(jQuery("#LPF_Inversion_inicial").val());
+        let noperiod = intVal(jQuery("#LPF_Duracion_plazo").val());
+        let extra = moneyToNumber(jQuery("#LPF_Inversion_Mensual").val());
+        let period = jQuery("#period option:selected").val();
+        let profile = jQuery("#final_profile").text().toUpperCase();
+        let selected = jQuery("input[type='radio'][name='inlineRadioOptions']:checked").val() || '';
+
+        const url = new URL('https://principal.com.mx/node/581', location.origin);
+        url.searchParams.set('risklevel', profile);
+        url.searchParams.set('iinicial', inversion_inicial || '');
+        url.searchParams.set('imensual', inversion_mensual || '');
+        url.searchParams.set('amount', String(ammount));
+        url.searchParams.set('extra', String(extra));
+        url.searchParams.set('noperiod', String(noperiod));
+        url.searchParams.set('period', period);
+        url.searchParams.set('selected', selected);
+        url.searchParams.set('utm_source', getParam('utm_source'));
+        url.searchParams.set('utm_medium', getParam('utm_medium'));
+        url.searchParams.set('utm_campaign', getParam('utm_campaign'));
+
+        location.href = url.toString();
+      });
+
+      // Radios -> avanzar
+      jQuery(document).on("change", ".custom-control-input", function(evt){
+        evt.preventDefault();
+
+        const blocker = document.querySelector(".screen-blocker");
+        function stepsfoward(){
+          jQuery("#waiter_form").removeClass('d-none');
+
+          if (jQuery('#formc-' + $selectedStep).length > 0) {
+            const valuarte = isOneChecked($selectedStep);
+            if (valuarte) {
+              jQuery('.formulario').addClass("d-none");
+              jQuery('#chk_error-' + $selectedStep).addClass('d-none');
+
+              registerAnswers(mode, $selectedStep, valuarte, function (obj) {
+                $selectedStep++;
+                jQuery(".current-page").text($selectedStep + "/5");
+                jQuery("#btn-regresa").text("Pregunta anterior");
+
+                if (jQuery('#formc-' + $selectedStep).length > 0) {
+                  jQuery('#formc-' + $selectedStep).removeClass('d-none');
+                  jQuery("#waiter_form").addClass('d-none');
+                } else {
+                  // FIN: mostrar perfil final
+                  $selectedStep--;
+                  jQuery('.final_profile').html(obj?.Message?.profile || 'Moderado');
+
+                  let perfilIdeal = "", perfilIntro = "", perfilDescription = "";
+                  switch (obj?.Message?.profile) {
+                    case "Tradicional":
+                      perfilIdeal = "De acuerdo a tus respuestas hemos calculado que tu perfil ideal es Tradicional; si estás de acuerdo, da clic en continuar o si lo deseas puedes repetir el perfilador.";
+                      perfilIntro = "Súper, con tu resultado nos damos cuenta que quieres empezar a invertir con paso firme.";
+                      perfilDescription = "Los inversionistas con este perfil tienen una tolerancia baja al riesgo...";
+                      break;
+                    case "Agresivo":
+                      perfilIdeal = "De acuerdo a tus respuestas hemos calculado que tu perfil ideal es Agresivo; si estás de acuerdo, da clic en continuar o si lo deseas puedes repetir el perfilador.";
+                      perfilIntro = "¡Aah caray! tu resultado va de acuerdo con un inversionista que busca que su dinero se eleve hasta el cielo. Te podemos ayudar.";
+                      perfilDescription = "A los inversionistas con este perfil no les importa ver disminución en el saldo...";
+                      break;
+                    case "Conservador":
+                      perfilIdeal = "De acuerdo a tus respuestas hemos calculado que tu perfil ideal es Conservador; si estás de acuerdo, da clic en continuar o si lo deseas puedes repetir el perfilador.";
+                      perfilIntro = "¡Qué sorpresa!";
+                      perfilDescription = "Los inversionistas con este perfil tienen una tolerancia baja al riesgo...";
+                      break;
+                    case "Moderado":
+                    default:
+                      perfilIdeal = "De acuerdo a tus respuestas hemos calculado que tu perfil ideal es Moderado; si estás de acuerdo, da clic en continuar o si lo deseas puedes repetir el perfilador.";
+                      perfilIntro = "Wow! Este resultado nos dice que buscas cierta estabilidad, pero cuando ves la oportunidad te atreves a ir por todo.";
+                      perfilDescription = "A los inversionistas con este perfil no les importa ver disminuciones...";
+                  }
+
+                  jQuery('.jss148.jss151.row').html(perfilIdeal);
+                  jQuery('#final_message').html(perfilIntro);
+                  jQuery('#final_description').html(perfilDescription);
+                  jQuery('#form-final').removeClass('d-none');
+                  jQuery('#container_form').addClass("d-none");
+                  jQuery("#waiter_form").addClass('d-none');
+                }
+              });
+            } else {
+              jQuery('#chk_error-' + $selectedStep).removeClass('d-none');
+              jQuery("#waiter_form").addClass('d-none');
+            }
+          }
+
+          blocker.classList.remove("show");
+        }
+
+        if ($selectedStep !== 5){
+          document.querySelector(".screen-blocker").classList.add("show");
+          setTimeout(stepsfoward, 2000);
+        } else {
+          jQuery('#continueLink')
+            .removeClass('d-none')
+            .off('click')
+            .on('click', function(e){
+              e.preventDefault();
+              stepsfoward();
+            });
+        }
+      });
+    })
+    .fail(function(xhr, err){
+      console.error("Error cargando catálogo:", err);
+      alert("No se pudo cargar el perfilador. Intenta de nuevo más tarde.");
+    });
+  }
+
+  // ---------- API calls (POST JSON) ----------
+  function registerAnswers(id_user, question, answer, finaliza_fnc){
+    jQuery.ajax({
+      method: "POST",
+      url: "https://principal.com.mx/getPerfilador",
+      dataType: "json",
+      contentType: "application/json",
+      data: JSON.stringify({ id_user, question, answer }),
+      timeout: 15000
+    })
+    .done(function(obj){
+      finaliza_fnc(obj);
+    })
+    .fail(function(xhr, err){
+      console.error("Error registrando respuestas:", err);
+      jQuery("#waiter_form").addClass('d-none');
+      jQuery('#formc-' + $selectedStep).removeClass('d-none');
+    });
+  }
+
+  // ---------- Dynamic builder ----------
+  function builderForm(data, index){
+    // Si confías 100% en la fuente, puedes usar .html; de lo contrario .text (anti-XSS)
+    let pcolform = jQuery("<p>").text(data.question);
+    let divform = jQuery("<div>", { class: "col indicacion" }).append(pcolform);
+    let questionsdiv = jQuery("<div>", { class: "col buttons", id: 'form-question-' + data.id });
+    let errordiv = jQuery("<div>", { style: "color:rgb(192, 0, 0);text-align: center;", class: 'd-none', id: 'chk_error-' + data.id }).text('Selecciona una respuesta para continuar');
+    let form = jQuery("<form>").append(divform).append(questionsdiv).append(errordiv);
+    let template = jQuery("<div>", { id: "formc-" + data.id, class: "container formulario d-none" }).append(form);
+    jQuery('#container_form').append(template);
+
+    let preguntas = data.answerOptions || [];
+    preguntas.forEach((elementq) => {
+      const rid = 'customRadio'+ elementq.id;
+      const $input = jQuery('<input>', {
+        class: "custom-control-input",
+        id: rid,
+        name: "customRadio" + data.id,
+        type: "radio",
+        value: elementq.order
+      });
+      const $label = jQuery('<label>', { class: 'custom-control-label', for: rid }).text(elementq.answerText);
+
+      const block = jQuery('<div>', { class: "custom-control custom-radio button" })
+        .append($input)
+        .append($label);
+
+      jQuery("#form-question-" + data.id).append(block);
+    });
+  }
+
+  function isOneChecked(id){
+    let chx = jQuery('[name="customRadio' + id + '"]:checked');
+    if (chx.length > 0) return chx.val();
+    return false;
+  }
+</script>
+
+
+  </div>
+</body>
+</html>
